@@ -1,95 +1,99 @@
-﻿using System;
-using System.IO;
-using System.Reflection.PortableExecutable;
-using System.Text;
+﻿using System.Text;
 
 
-const string PathToFile = "../../../Vocabulary.txt";
-const string SeparatorString = ": ";
-
-SetupConsoleOuputEncoding();
-
-Console.WriteLine( "The Dictionary" );
-
-Dictionary<string, string> DictWords = ReadTextFromFileAndGenerateDictionaryStructure();
-
-string UserWord = GetUserSearchWord();
-
-
-if ( !WordIsFound( UserWord ) )
+namespace Dictionary;
+public class Program
 {
-    Console.Write( $"Слово '{UserWord}' отсутствует в словаре. Хотите его добавить? (Нажмите enter для подтверждения): " );
-    if ( String.IsNullOrEmpty( Console.ReadLine() ) )
+    const string pathToFile = "../../../Vocabulary.txt";
+    const string separatorString = ": ";
+    static void Main()
     {
-        string UserTransalateWord;
-        do
+        setupConsoleOuputEncoding();
+
+        Console.WriteLine( "The Dictionary" );
+
+        Dictionary<string, string> dictWords = readTextFromFileAndGenerateDictionaryStructure();
+
+        string userWord = getUserSearchWord();
+
+
+        if ( !wordIsFound( userWord ) )
         {
-            Console.Write( $"Укажите перевод для слова '{UserWord}': " );
-            UserTransalateWord = Console.ReadLine();
+            Console.Write( $"Слово '{userWord}' отсутствует в словаре. Хотите его добавить? (Нажмите enter для подтверждения): " );
+            if ( String.IsNullOrEmpty( Console.ReadLine() ) )
+            {
+                string userTransalateWord;
+                do
+                {
+                    Console.Write( $"Укажите перевод для слова '{userWord}': " );
+                    userTransalateWord = Console.ReadLine();
+                }
+                while ( String.IsNullOrWhiteSpace( userTransalateWord ) );
+                addWordsToFile( userWord, userTransalateWord );
+                Console.WriteLine( "Ваше слово успешно добавлено в файл" );
+            }
+            else
+            {
+                Console.WriteLine( ":(" );
+            }
         }
-        while ( String.IsNullOrWhiteSpace( UserTransalateWord ) );
-        AddWordsToFile( UserWord, UserTransalateWord );
-        Console.WriteLine( "Ваше слово успешно добавлено в файл" );
-    }
-    else
-    {
-        Console.WriteLine( ":(" );
-    }
-}
 
-static void SetupConsoleOuputEncoding()
-{
-    Console.OutputEncoding = Encoding.UTF8;
-}
-
-Dictionary<string, string> ReadTextFromFileAndGenerateDictionaryStructure()
-{
-    Dictionary<string, string> dictionary = new Dictionary<string, string>();
-    using ( StreamReader reader = new StreamReader( PathToFile ) )
-    {
-        string? line;
-        while ( ( line = reader.ReadLine() ) != null )
+        static void setupConsoleOuputEncoding()
         {
-            AddElemsToDictionary( line, dictionary );
+            Console.OutputEncoding = Encoding.UTF8;
         }
-        return dictionary;
-    }
-}
 
-void AddElemsToDictionary( string FileLine, Dictionary<string, string> dict )
-{
-    string[] Words = FileLine.Split( SeparatorString );
-    dict.Add( Words[ 0 ], Words[ 1 ] );
-
-}
-string GetUserSearchWord()
-{
-    Console.Write( "Введите слово( на английском или русском языке ): " );
-    return Console.ReadLine().ToLower();
-}
-
-bool WordIsFound( string SearchWord )
-{
-    foreach ( var s in DictWords )
-    {
-        if ( s.Value == SearchWord )
+        Dictionary<string, string> readTextFromFileAndGenerateDictionaryStructure()
         {
-            Console.WriteLine( $"{s.Value} - {s.Key}" );
-            return true;
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            using ( StreamReader reader = new StreamReader( pathToFile ) )
+            {
+                string? line;
+                while ( ( line = reader.ReadLine() ) != null )
+                {
+                    addElemsToDictionary( line, dictionary );
+                }
+                return dictionary;
+            }
         }
-        if ( s.Key == SearchWord )
-        {
-            Console.WriteLine( $"{s.Key} - {s.Value}" );
-            return true;
-        }
-    }
-    return false;
-}
 
-void AddWordsToFile( string Word, string Translate )
-{
-    using ( StreamWriter writer = new StreamWriter( PathToFile, true ) )
-    {
-        writer.WriteLine( $"{Word}: {Translate}" );
+        void addElemsToDictionary( string fileLine, Dictionary<string, string> dictionary )
+        {
+            string[] words = fileLine.Split( separatorString );
+            dictionary.Add( words[ 0 ], words[ 1 ] );
+
+        }
+        string getUserSearchWord()
+        {
+            Console.Write( "Введите слово( на английском или русском языке ): " );
+            return Console.ReadLine().ToLower();
+        }
+
+        bool wordIsFound( string searchWord )
+        {
+
+            foreach ( KeyValuePair<string, string> dictionatyElement in dictWords )
+            {
+                if ( dictionatyElement.Value == searchWord )
+                {
+                    Console.WriteLine( $"{dictionatyElement.Value} - {dictionatyElement.Key}" );
+                    return true;
+                }
+                if ( dictionatyElement.Key == searchWord )
+                {
+                    Console.WriteLine( $"{dictionatyElement.Key} - {dictionatyElement.Value}" );
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        void addWordsToFile( string word, string translate )
+        {
+            using ( StreamWriter writer = new StreamWriter( pathToFile, true ) )
+            {
+                writer.WriteLine( $"{word}: {translate}" );
+            }
+        }
     }
 }
