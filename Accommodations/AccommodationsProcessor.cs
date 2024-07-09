@@ -48,8 +48,6 @@ public static class AccommodationsProcessor
                     Console.WriteLine("Invalid number of arguments for booking.");
                     return;
                 }
-                //месяц, день, число
-                //здесь было изменено
                 try
                 {
                     if (DateTime.TryParse(parts[3], out DateTime beginDate) && DateTime.TryParse(parts[4], out DateTime finshDate) && Enum.TryParse(parts[5], true, out CurrencyDto currency)  && int.TryParse(parts[1], out int userId))
@@ -101,7 +99,7 @@ public static class AccommodationsProcessor
                 break;
 
             case "undo":
-                try //было изменено
+                try
                 {
                     _executedCommands[s_commandIndex].Undo();
                     _executedCommands.Remove(s_commandIndex);
@@ -125,7 +123,7 @@ public static class AccommodationsProcessor
                 }
                 try
                 {
-                    Guid id = Guid.Parse(parts[1]); //слишком самоуверенный парс. нужен кетч как и повыше
+                    Guid id = Guid.Parse(parts[1]); 
                     FindBookingByIdCommand findCommand = new(_bookingService, id);
                     findCommand.Execute();
                     _executedCommands.Add(++s_commandIndex, findCommand);

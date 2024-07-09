@@ -91,14 +91,13 @@ public class BookingService : IBookingService
         {
             throw new ArgumentException($"Booking with id: '{bookingId}' does not exist");
         }
-        //перенёс блок в метод бронирования
         Console.WriteLine($"Refund of {booking.Cost} {booking.Currency}");
         _bookings.Remove(booking);
         RoomCategory? category = _categories.FirstOrDefault(c => c.Name == booking.RoomCategory.Name);
         category.AvailableRooms++;
     }
 
-    private static decimal CalculateDiscount()//зачем здесь userId???
+    private static decimal CalculateDiscount()
     {
         return 0.1m;
     }
@@ -148,8 +147,8 @@ public class BookingService : IBookingService
 
     private static decimal CalculateBookingCost(decimal baseRate, int days,  decimal currencyRate)
     {
-        decimal cost = baseRate * days;//рубли!
-        decimal totalCost = (cost - cost * CalculateDiscount()) / currencyRate; //первая часть формулы - рубли, вторая - херня какая-то
+        decimal cost = baseRate * days;
+        decimal totalCost = (cost - cost * CalculateDiscount()) / currencyRate;
         return totalCost;
     }
 }
