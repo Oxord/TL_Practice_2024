@@ -9,13 +9,13 @@ public class Program
     {
         Dictionary<int, Fighter> currentFighters = new();
         int currentFightersAmount = 0;
-        string userCommand = string.Empty;
+
         SetupWindowEncoding();
         PrintMenu();
         while ( true )
         {
 
-            userCommand = ReadUserCommand();
+           string userCommand = ReadUserCommand();
 
             switch ( userCommand )
             {

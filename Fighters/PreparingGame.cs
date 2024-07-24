@@ -55,7 +55,7 @@ public class PreparingGame
         while ( true )
         {
             Console.WriteLine( "Выберите класс бойца\n1 - варвар\n2 - рыцарь\n3 - паладин\n4 - волшебник" );
-            int fighterClassNum;//пофксить эьу шнягу
+            int fighterClassNum;
             if ( !Int32.TryParse( Console.ReadLine(), out fighterClassNum ) )
             {
                 Console.WriteLine( "Введите только цифру!" );
