@@ -9,18 +9,12 @@ public class GameManager
 {
     public Fighter Play( Fighter fighterA, Fighter fighterB )
     {
-        Random random = new Random();
         Fighter fighterFirst, fighterSecond;
-        if ( random.Next( 2 ) == 0 )
-        {
-            fighterFirst = fighterA;
-            fighterSecond = fighterB;
-        }
-        else
-        {
-            fighterFirst = fighterB;
-            fighterSecond = fighterA;
-        }
+        Fighter[] fightersQueue = GetFightersQueue( fighterA, fighterB );
+
+        fighterFirst = fightersQueue[0];
+        fighterSecond = fightersQueue[1];
+
         int rounds = 1;
         while ( true )
         {
@@ -43,6 +37,19 @@ public class GameManager
             Console.WriteLine( $"{fighterFirst.name} наносит {firstFighterDamage} урона, получает {secondFighterDamage}" );
             Console.WriteLine( $"{fighterSecond.name} наносит {secondFighterDamage} урона, получает {firstFighterDamage}" );
             rounds++;
+        }
+    }
+
+    private Fighter[] GetFightersQueue( Fighter fighterA, Fighter fighterB )
+    {
+        Random random = new Random();
+        if ( random.Next( 2 ) == 0 )
+        {
+            return [ fighterA, fighterB ];
+        }
+        else
+        {
+            return [fighterB, fighterA];
         }
     }
 
