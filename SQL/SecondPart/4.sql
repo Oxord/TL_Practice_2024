@@ -1,3 +1,5 @@
+﻿/*Найдите все бронирования для определенного номера.*/
+
 USE HotelManagement;
 
 DECLARE @roomNumber INT = 4;

@@ -1,5 +1,6 @@
-USE HotelManagement;
+﻿/*Найдите все доступные номера для бронирования сегодня.*/
 
+USE HotelManagement;
 DECLARE @todayDate DATE = GETDATE();
 
 SELECT DISTINCT room_number, room_type, price_per_night FROM dbo.rooms r LEFT JOIN dbo.bookings b ON r.room_id = b.room_id 
