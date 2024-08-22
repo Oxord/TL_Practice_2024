@@ -1,33 +1,38 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Deck = void 0;
-const RemoveDeck = (app, deck) => {
-    const deckIndex = app.decks.indexOf(deck);
-    if (deckIndex !== -1) {
-        app.decks.splice(deckIndex, 1);
+const DeckStatus_1 = require("./DeckStatus");
+class Deck {
+    constructor(id, name, description, cards) {
+        this.deckStatus = DeckStatus_1.DeckStatus[2];
+        this.GetAllCards = () => {
+            return this.cards;
+        };
+        this.AddCard = (card) => {
+            if (card.word !== '' && card.translation !== '' && !this.cards.some(item => item.id === card.id)) {
+                this.cards = [...this.cards, card];
+                this.wordsAmount++;
+            }
+            return this;
+        };
+        this.DeleteCard = (card) => {
+            const cardIndex = this.cards.indexOf(card);
+            if (cardIndex !== -1) {
+                this.cards.splice(cardIndex, 1);
+                this.wordsAmount--;
+            }
+            return this;
+        };
+        this.EditDeck = (newName, newDescription) => {
+            this.name = newName;
+            this.description = newDescription;
+            return this;
+        };
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.wordsAmount = cards.length;
+        this.cards = cards;
     }
-};
-const GetAllCards = (deck) => {
-    return deck.cards;
-};
-const AddCard = (deck, card) => {
-    if (card.frontSide !== '' && card.backSide !== '' && !deck.cards.some(item => item.id === card.id)) {
-        deck.cards = [...deck.cards, card];
-        deck.wordsAmount++;
-    }
-    return deck;
-};
-const DeleteCard = (deck, card) => {
-    const cardIndex = deck.cards.indexOf(card);
-    if (cardIndex !== -1) {
-        deck.cards.splice(cardIndex, 1);
-        deck.wordsAmount--;
-    }
-    return deck;
-};
-const EditDeck = (deck, newName, newInfo) => {
-    deck.name = newName;
-    deck.description = newInfo;
-    return deck;
-};
-exports.Deck = { RemoveDeck, GetAllCards, AddCard, DeleteCard, EditDeck };
+}
+exports.Deck = Deck;

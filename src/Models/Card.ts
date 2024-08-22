@@ -1,13 +1,18 @@
-export type Card = {
+export class Card {
     id: number;
-    frontSide: string;
-    backSide: string;
-}
+    word: string;
+    translation: string;
 
-const EditCard = (card: Card, frontWord: string, backWord: string): Card => {
-    card.frontSide = frontWord;
-    card.backSide = backWord;
-    return card;
-}
+    constructor(id: number, word: string, translation: string){
+        this.id = id;
+        this.word = word;
+        this.translation = translation;
+    }
 
-export const Card = { EditCard };
+    EditCard = (word: string, translation: string): Card => {
+        this.word = word;
+        this.translation = translation;
+        return this;
+    }
+
+}

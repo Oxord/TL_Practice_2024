@@ -5,29 +5,25 @@ import {expect, jest, test} from '@jest/globals';
 
 describe('Application', () => {
     describe('AddNewDeck', () => {
-        const newDeck: Deck = {        
-            id: 1,
-            name: "New Deck",
-            description: "description of new deck",
-            wordsAmount: 0,
-            deckStatus: DeckStatus[2],
-            cards: []
-        };
-        const app: Application = { decks:[] };
+        const newDeck = new Deck( 1, "New Deck", "description of new deck", []);
+        const app = new Application([]);
         it(`adds deck to the collection and returns it`, () => {
-          expect(Application.AddDeck(app, newDeck).decks).toEqual([newDeck]);
+          expect(app.AddDeck(newDeck).decks).toEqual([newDeck]);
         });
-        it(`returns new Application`, () => {
-            const emptyApp: Application = { decks: [] };
-            expect(Application.AddDeck(emptyApp, newDeck).decks).not.toBe(emptyApp);
-          });
         it(`doesn't add a deck which is already in collection`, () => {
           app.decks = [newDeck];
-          expect(Application.AddDeck(app, { ...newDeck }).decks).toEqual([newDeck]);
+          expect(app.AddDeck({ ...newDeck }).decks).toEqual([newDeck]);
         });
-        it(`doesn't add a car with empty name`, () => {
+        it(`doesn't add a deck with empty name`, () => {
           app.decks = [];
-          expect(Application.AddDeck(app, { ...newDeck, name: `` }).decks).toEqual([]);
+          expect(app.AddDeck({ ...newDeck, name: `` }).decks).toEqual([]);
         });  
     });
+    describe('DeleteDeck', () => {
+      const oneDeck = new Deck(1, "One Deck", "description of deck", []);
+      const app = new Application([oneDeck]);
+      it(`delete deck from Application`, () => {
+          expect(app.RemoveDeck(oneDeck).decks).toEqual([])
+      });
+  });
 });

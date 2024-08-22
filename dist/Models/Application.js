@@ -1,10 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Application = void 0;
-const AddDeck = (app, deck) => {
-    if (deck.name !== '' && !app.decks.some(item => item.name == deck.name)) {
-        app.decks.push(deck);
+class Application {
+    constructor(decks) {
+        this.AddDeck = (deck) => {
+            if (deck.name !== '' && !this.decks.some(item => item.name == deck.name)) {
+                this.decks.push(deck);
+            }
+            return this;
+        };
+        this.RemoveDeck = (deck) => {
+            const deckIndex = this.decks.indexOf(deck);
+            if (deckIndex !== -1) {
+                this.decks.splice(deckIndex, 1);
+            }
+            return this;
+        };
+        this.decks = decks;
     }
-    return app;
-};
-exports.Application = { AddDeck };
+}
+exports.Application = Application;

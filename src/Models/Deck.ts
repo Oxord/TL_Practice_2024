@@ -1,47 +1,47 @@
-import { Application } from "./Application";
 import { Card } from "./Card";
+import { DeckStatus } from "./DeckStatus";
 
-export type Deck = {
+ export class Deck {
     id: number;
     name: string;
     description: string;
     wordsAmount: number;
-    deckStatus: string; 
+    deckStatus: string = DeckStatus[2]; 
     cards: Card[];
-}
 
-const RemoveDeck = (app: Application, deck: Deck): void => {
-    const deckIndex = app.decks.indexOf(deck);
-    if (deckIndex !== -1){
-        app.decks.splice(deckIndex, 1);
+    constructor(id: number, name: string, description: string, cards: Card[]){
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.wordsAmount = cards.length;
+        this.cards = cards;
     }
-}
 
-const GetAllCards = (deck: Deck): Card[] | undefined => {
-    return deck.cards;
-}
-
-const AddCard = (deck: Deck, card: Card): Deck => {
-    if (card.frontSide !== '' && card.backSide !== '' && !deck.cards.some(item => item.id === card.id)){
-        deck.cards = [ ...deck.cards, card ];
-        deck.wordsAmount++;
+    GetAllCards = (): Card[] | undefined => {
+        return this.cards;
     }
-    return deck;
-}
 
-const DeleteCard = (deck: Deck, card: Card): Deck => {
-    const cardIndex = deck.cards.indexOf(card);
-    if (cardIndex !== -1){
-        deck.cards.splice(cardIndex, 1);
-        deck.wordsAmount--;
+    AddCard = (card: Card): Deck => {
+        if (card.word !== '' && card.translation !== '' && !this.cards.some(item => item.id === card.id)){
+            this.cards = [ ...this.cards, card ];
+            this.wordsAmount++;
+        }
+        return this;
     }
-    return deck;
-}
 
-const EditDeck = (deck: Deck, newName: string, newInfo: string): Deck => {
-    deck.name = newName;
-    deck.description = newInfo;
-    return deck;
-}
+    DeleteCard = (card: Card): Deck => {
+        const cardIndex = this.cards.indexOf(card);
+        if (cardIndex !== -1){
+            this.cards.splice(cardIndex, 1);
+            this.wordsAmount--;
+        }
+        return this;
+    }
 
-export const Deck = { RemoveDeck, GetAllCards, AddCard, DeleteCard, EditDeck };
+    EditDeck = (newName: string, newDescription: string): Deck => {
+        this.name = newName;
+        this.description = newDescription;
+        return this;
+    }
+
+}

@@ -2,59 +2,66 @@ import { Card } from "./Card";
 import { Deck } from "./Deck"
 import { DeckStatus } from "./DeckStatus";
 
-export type LearnProcess = {
+export class LearnProcess {
     deck: Deck;
-    currentCard: Card;
-    currentStatus: DeckStatus;
-}
+    cards: Card[];
+    currentCard: Card | null = null;
+    currentStatus: string = DeckStatus[2];
 
-const AreCardsInDeck = (deck: Card[]): boolean => {
-    if(deck.length > 0){
-        return true
+    constructor(deck: Deck){
+        this.deck = deck;
+        this.cards = this.ShuffleDeck(deck.cards);
     }
-    return false;
+
+    AreCardsInDeck = (): boolean => {
+        if(this.cards.length > 0){
+            return true
+        }
+        return false;
+    };
+
+    ShuffleDeck = (cards: Card[]): Card[] => {
+       let deckCards: Card[] = cards;
+       let shuffledDeck: Card[] = [];
+       let i: number = Math.floor(Math.random() * cards.length);
+       for( i; cards.length > 0; i = Math.floor(Math.random() * cards.length)){
+           shuffledDeck.push(cards[i]);
+           cards.splice(i, 1);
+       }
+       cards = deckCards;
+       return shuffledDeck;
+   }
+   
+   
+    GetCard = (): Card => {
+        const lastIndex = this.cards.length - 1;
+        const card: Card = this.cards[lastIndex]; 
+       return card;
+   }
+   
+    PutCardDown = (card: Card): Card[] => {
+       const cardIndex = this.cards.indexOf(card);
+       this.cards.splice(cardIndex, 1);
+       this.cards.push(card);
+       return this.cards;
+   }
+   
+    PutCardAway = (card: Card): Card[] => {
+       const cardIndex = this.cards.indexOf(card);
+       this.cards.splice(cardIndex, 1);
+       return this.cards;
+   }
+   
+    ShowBackSide = (card: Card): void => {
+       //предполагается, что карточка будет перевёрнута другой стороной, но суть метода в том, чтобы показать перевод слова
+       console.log(card.translation);
+   } 
+   
+    IsWordLearn = (): boolean => {
+       //метод, который зависит от ввода пользователя. 
+       //Пользователь при проверке перевода может указать, сповпал ли его перевод, или же нет.
+       return true;
+   }
+
 }
 
-const ShuffleDeck = (deck: Deck): Card[] => {
-    const deckCards: Card[] = deck.cards;
-    const shuffledDeck: Card[] = [];
-    let i: number = Math.floor(Math.random() * deck.cards.length);
-    for( i; deck.cards.length > 0; i = Math.floor(Math.random() * deck.cards.length)){
-        shuffledDeck.push(deck.cards[i]);
-        deck.cards.splice(i, 1);
-    }
-    deck.cards = deckCards;
-    return shuffledDeck;
-}
-
-
-const GetCard = (deck: Card[]): Card => {
-    const lastIndex = deck.length - 1;
-    const card: Card = deck[lastIndex]; 
-    return card;
-}
-
-const PutCardDown = (card: Card, deck: Card[]): Card[] => {
-    const cardIndex = deck.indexOf(card);
-    deck.splice(cardIndex, 1);
-    deck.push(card);
-    return deck;
-}
-
-const PutCardAway = (card: Card, deck: Card[]): Card[] => {
-    const cardIndex = deck.indexOf(card);
-    deck.splice(cardIndex, 1);
-    return deck;
-}
-
-const ShowBackSide = (card: Card): void => {
-    //предполагается, что карточка будет перевёрнута другой стороной, но суть метода в том, чтобы показать перевод слова
-    console.log(card.backSide);
-} 
-
-const IsWordLearn = (): boolean => {
-    //метод, который зависит от ввода пользователя. Пользователь при проверке перевода может указать, сповпал ли его перевод, или же нет.
-    return true;
-}
-
-export const LearnProcess = {ShuffleDeck, AreCardsInDeck, GetCard, PutCardDown, PutCardAway, ShowBackSide, IsWordLearn}
