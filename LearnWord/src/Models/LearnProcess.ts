@@ -6,12 +6,12 @@ export class LearnProcess {
     deck: Deck;
     cards: Card[];
     learnedCards: Card[];
-    currentCard: Card;
+    currentCard?: Card;
     currentStatus: string = DeckStatus[2];
 
     constructor(deck: Deck, cards: Card[]){
         this.deck = deck;
-        this.cards = this.ShuffleDeck(cards);
+        this.cards = cards//this.ShuffleDeck(cards);
         this.learnedCards = [];
         this.currentCard = this.GetCard();
     }
@@ -37,10 +37,11 @@ export class LearnProcess {
    
    
     GetCard = (): Card => {
-        const randomIndex = Math.floor(Math.random() * this.cards.length);
-        const card: Card = this.cards[randomIndex]; 
-        console.log(card);
-       return card;
+        // const lastIndex = this.cards.length - 1;
+        // const card: Card = this.cards[lastIndex]; 
+        // return card;
+        console.log('cards', this.cards);
+        return this.cards[0];
    }
    
     PutCardDown = (card: Card): Card[] => {
@@ -54,6 +55,9 @@ export class LearnProcess {
        this.learnedCards = [...this.learnedCards, card]; 
        const cardIndex = this.cards.indexOf(card);
        this.cards.splice(cardIndex, 1);
+    //    if(this.AreCardsInDeck()){
+    //        this.currentCard = this.GetCard();
+    //    }
        return this.cards;
    }
 

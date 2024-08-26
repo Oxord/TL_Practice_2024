@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 
 type OneDeckViewProps = {
   children: ReactNode;
@@ -7,12 +7,6 @@ type OneDeckViewProps = {
 };
 
 export const OneDeckView = ({ children, isVisible, onClose }: OneDeckViewProps) => {
-  useEffect(() => {
-    return () => {
-      console.log('unmount piopup');
-    }
-  }, []) 
-
 
   let classPopupModificator = "popup popup_hidden";
   if (isVisible) {

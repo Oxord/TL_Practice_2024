@@ -6,6 +6,7 @@ import { LearnProcessPopup } from "./LearnProcessPopup";
 import { PopupCover } from "./PopupCover";
 import { DeckStatus } from "../Models/DeckStatus";
 import { Deck } from "../Models/Deck";
+import { Card } from "../Models/Card";
 
 
 type LearnProcessProps = {
@@ -13,69 +14,78 @@ type LearnProcessProps = {
   visible: boolean;
   onChangeVisible: () => void;
   deck: Deck;
+  card: Card;
+  setCard: () => void;//React.Dispatch<React.SetStateAction<Card>>;
 };
 
-export const LearnProcessView = ({ learnProcess, visible, onChangeVisible, deck }: LearnProcessProps) => {
-    // const [allCards, setAllCards] = useState(deck.cards);
-    // console.log(allCards);
+export const LearnProcessView = ({ learnProcess, visible, onChangeVisible, deck, card, setCard }: LearnProcessProps) => {
 
-    // const deleteCard = (card: Card) => {
-    //   const index = allCards.indexOf(card);
-    //   setAllCards(allCards.splice(index, 1));
-    // }
+  const [allCards, setAllCards] = useState(learnProcess.cards);
+  const AddCardToAllCards = (card: Card) => {
+    setAllCards([...allCards, card]);
+    console.log("in All Cards now are: ", allCards);
+  };
 
-    const [currCard, setCard] = useState(learnProcess.currentCard);
-    const replaceCard = () => {
-      setCard(learnProcess.GetCard());
+  console.log('cardin LearnProcessView', card)
+
+  const replaceCard = () => {
+    setCard();
+  };
+
+  const [isWordDisplay, setIsWordSideDisplay] = useState(true);
+
+  const changeCardSide = () => {
+    if(isWordDisplay){
+      setIsWordSideDisplay(false)
     }
-
-    const [currCardSide, setCardSide] = useState(currCard.word);
-    const turnOverCard = () => {
-      if (currCardSide === currCard.word){
-        setCardSide(currCard.translation)
-      }
-      else{
-        setCardSide(currCard.word)
-      }
+    else{
+      setIsWordSideDisplay(true);
     }
+  }
 
-    const cardLearned = () => {
-      learnProcess.PutCardAway(currCard);
-      learnProcess.currentStatus = DeckStatus[1];
-      if(learnProcess.cards.length > 0){
-        // deleteCard(currCard);
-        replaceCard();
-        setCardSide(currCard.word);
-      }
-      else{
-        onChangeVisible();
-        alert("Карты кончились. Статус вашей колоды: ");
-        alert(learnProcess.currentStatus);
-        deck.cards = learnProcess.learnedCards;
-        learnProcess.cards = learnProcess.learnedCards;
-        learnProcess.learnedCards = [];
-        learnProcess.currentCard = learnProcess.GetCard();
-      }
-    }
+  const turnOverCard = () => {
+    changeCardSide();
+  };
 
-    const cardUnlearned = () => {
+  const cardLearned = () => {
+    AddCardToAllCards(card);
+    learnProcess.PutCardAway(card);
+    learnProcess.currentStatus = DeckStatus[1];
+    if (learnProcess.cards.length > 0) {
+      turnOverCard();
       replaceCard();
-      setCardSide(currCard.word);
-      learnProcess.currentStatus = DeckStatus[2];
-      learnProcess.PutCardDown(currCard);
+    } else {
+      onChangeVisible();
+      alert("Карты кончились. Вы успешно выучили слова из этой колоды!");
+      deck.cards = learnProcess.learnedCards;
+      learnProcess.cards = learnProcess.learnedCards;
+      learnProcess.learnedCards = [];
+      setAllCards([]);
     }
+  };
+
+  const cardUnlearned = () => {
+    turnOverCard();
+    replaceCard();
+    learnProcess.currentStatus = DeckStatus[2];
+    learnProcess.PutCardDown(card);
+  };
+
+  const onCloseLearn = () => {
+    onChangeVisible();
+  };
 
   return (
     <EmptyPage>
       <PopupCover isVisible={visible}></PopupCover>
       <LearnProcessPopup
         isVisible={visible}
-        onClose={onChangeVisible}
+        onClose={onCloseLearn}
         onFlip={turnOverCard}
         onLearned={cardLearned}
         onUnlearned={cardUnlearned}
-        >
-        <CardLearnPreview cardSide={currCardSide}></CardLearnPreview>
+      >
+        <CardLearnPreview  isWord={isWordDisplay} card={card}></CardLearnPreview>
       </LearnProcessPopup>
     </EmptyPage>
   );

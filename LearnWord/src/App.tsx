@@ -18,14 +18,11 @@ type DecksProps = {
 
 
 const Decks = ({ app }: DecksProps): JSX.Element => {
-  console.log(app.decks);
   const [decks, setDecks] = useState(initApp.decks);
   const removeDeck = (deck: Deck): void => {
     initApp.RemoveDeck(deck);
     setDecks(decks.splice(1, decks.indexOf(deck)));
   };
-  
-  console.log("init decks: ",initApp.decks);
 
   return (
     <div className="decks">
@@ -35,6 +32,7 @@ const Decks = ({ app }: DecksProps): JSX.Element => {
           <DeckPreview
             key={index}
             deck={deck}
+            deckNumber={index+1}
             deleteDeck={() => {
               initApp.RemoveDeck(deck);
               removeDeck(deck);
@@ -77,17 +75,3 @@ export const App = () => {
     </EmptyPage>
   );
 };
-
-/*useEffect(() => {
-    const unsubscribe = useStore.subscribe(data => {
-      console.log(`save data first = ${data.first}, last = ${data.last}`);
-    });
-    return unsubscribe;
-  }, []);
-
-  return (
-    <Container>
-      <h1>App</h1>
-      <Content/>
-    </Container>
-  )*/
