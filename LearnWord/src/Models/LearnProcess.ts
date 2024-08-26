@@ -11,7 +11,7 @@ export class LearnProcess {
 
     constructor(deck: Deck, cards: Card[]){
         this.deck = deck;
-        this.cards = cards//this.ShuffleDeck(cards);
+        this.cards = cards
         this.learnedCards = [];
         this.currentCard = this.GetCard();
     }
@@ -37,10 +37,6 @@ export class LearnProcess {
    
    
     GetCard = (): Card => {
-        // const lastIndex = this.cards.length - 1;
-        // const card: Card = this.cards[lastIndex]; 
-        // return card;
-        console.log('cards', this.cards);
         return this.cards[0];
    }
    
@@ -55,9 +51,6 @@ export class LearnProcess {
        this.learnedCards = [...this.learnedCards, card]; 
        const cardIndex = this.cards.indexOf(card);
        this.cards.splice(cardIndex, 1);
-    //    if(this.AreCardsInDeck()){
-    //        this.currentCard = this.GetCard();
-    //    }
        return this.cards;
    }
 

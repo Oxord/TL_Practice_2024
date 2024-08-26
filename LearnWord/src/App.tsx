@@ -11,7 +11,7 @@ import { usePopup } from "./hooks/usePopup";
 import { PopupCover } from "./Components/PopupCover";
 import { AddButton } from "./Components/AddButton";
 
-const initApp = new Application([new Deck("New Deck", "New Description"), new Deck("Second Deck", "desct")]);
+const initApp = new Application([]);
 type DecksProps = {
   app: Application;
 };

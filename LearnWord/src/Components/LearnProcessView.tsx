@@ -15,7 +15,7 @@ type LearnProcessProps = {
   onChangeVisible: () => void;
   deck: Deck;
   card: Card;
-  setCard: () => void;//React.Dispatch<React.SetStateAction<Card>>;
+  setCard: () => void;
 };
 
 export const LearnProcessView = ({ learnProcess, visible, onChangeVisible, deck, card, setCard }: LearnProcessProps) => {
@@ -23,10 +23,7 @@ export const LearnProcessView = ({ learnProcess, visible, onChangeVisible, deck,
   const [allCards, setAllCards] = useState(learnProcess.cards);
   const AddCardToAllCards = (card: Card) => {
     setAllCards([...allCards, card]);
-    console.log("in All Cards now are: ", allCards);
   };
-
-  console.log('cardin LearnProcessView', card)
 
   const replaceCard = () => {
     setCard();

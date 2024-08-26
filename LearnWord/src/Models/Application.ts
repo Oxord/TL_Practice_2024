@@ -10,7 +10,6 @@ export class Application {
         if (deck.name !== '' && !this.decks.some(item => item.name == deck.name)){
             this.decks.push(deck);  
         }
-        // return this;
     };
 
     RemoveDeck = (deck: Deck): void => {
@@ -18,7 +17,6 @@ export class Application {
         if (deckIndex !== -1){
             this.decks.splice(deckIndex, 1);
         }
-        //return this;
     }
 
 }

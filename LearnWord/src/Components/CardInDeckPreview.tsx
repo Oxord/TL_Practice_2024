@@ -1,7 +1,5 @@
 import { Card } from "../Models/Card";
 import icon from "./images/bin-icon.png"
-// import { PopupCover } from "./PopupCover";
-
 
 type CardInDeckPreviewProps = {
   cardNumber: number;

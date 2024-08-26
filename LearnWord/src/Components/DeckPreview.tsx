@@ -14,11 +14,8 @@ import { StartLearningButtonPreview } from "./StartLearningButtonPreview";
 import { LearnProcess } from "../Models/LearnProcess";
 import { CardInDeckPreview } from "./CardInDeckPreview";
 
-const learnProc = new LearnProcess(new Deck("", ""), [  ]);//пофиксить этот момент
-console.log("before splice", learnProc.cards.length);
+const learnProc = new LearnProcess(new Deck("", ""), [  ]);
 learnProc.cards.splice(learnProc.cards.indexOf(new Card("", ""), 1));
-
-console.log("after splice", learnProc.cards.length);
 
 type DeckPreviewProps = {
   deck: Deck;
@@ -36,13 +33,6 @@ export const DeckPreview = ({ deck, deleteDeck, deckNumber }: DeckPreviewProps) 
 
   learnProc.deck = deck;
   learnProc.cards = deck.cards;
-
-  if (learnProc.cards.length > 0){
-    // learnProc.currentCard = learnProc.cards[0];
-    // console.log("current card", learnProc.currentCard)
-  }
-
-  console.log(learnProc.cards);
 
   const { visible, changeVisible } = usePopup();
   const { visible: visiblePreview, changeVisible: changeVisiblePreview } = usePopup();

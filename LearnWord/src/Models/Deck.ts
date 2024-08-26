@@ -2,7 +2,6 @@ import { Card } from "./Card";
 import { DeckStatus } from "./DeckStatus";
 
  export class Deck {
-    //удалил поле id, wordsAmount
     name: string;
     description: string;
     deckStatus: string = DeckStatus[2]; 
