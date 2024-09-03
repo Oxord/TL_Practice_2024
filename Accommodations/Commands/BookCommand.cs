@@ -25,7 +25,7 @@ public class BookCommand(IBookingService bookingService, BookingDto bookingDto) 
         }
         else
         {
-            throw new Exception("Booking failed");
+            Console.WriteLine("Booking failed");
         }
 
     }

@@ -48,35 +48,48 @@ public static class AccommodationsProcessor
                     Console.WriteLine("Invalid number of arguments for booking.");
                     return;
                 }
-                try
+                if (DateTime.TryParse(parts[3], out DateTime beginDate))
                 {
-                    if (DateTime.TryParse(parts[3], out DateTime beginDate) && DateTime.TryParse(parts[4], out DateTime finshDate) && Enum.TryParse(parts[5], true, out CurrencyDto currency)  && int.TryParse(parts[1], out int userId))
+                    if (DateTime.TryParse(parts[4], out DateTime finshDate))
                     {
-                        BookingDto bookingDto = new()
+                        if (Enum.TryParse(parts[5], true, out CurrencyDto currency))
                         {
-                            UserId = userId,
-                            Category = parts[2],
-                            StartDate = beginDate,
-                            EndDate = finshDate,
-                            Currency = currency,
-                        };
+                            if (int.TryParse(parts[1], out int userId))
+                            {
+                                BookingDto bookingDto = new()
+                                {
+                                    UserId = userId,
+                                    Category = parts[2],
+                                    StartDate = beginDate,
+                                    EndDate = finshDate,
+                                    Currency = currency,
+                                };
 
-                        BookCommand bookCommand = new(_bookingService, bookingDto);
-                        bookCommand.Execute();
-                        _executedCommands.Add(++s_commandIndex, bookCommand);
-                        Console.WriteLine("Booking command run is successful.");
+                                BookCommand bookCommand = new(_bookingService, bookingDto);
+                                bookCommand.Execute();
+                                _executedCommands.Add(++s_commandIndex, bookCommand);
+                                Console.WriteLine("Booking command run is successful.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Incorrect data! Make sure that you have entered the user ID correctly.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Incorrect data! Make sure that you have entered the currency correctly.");
+                        }
                     }
                     else
                     {
-                        throw new Exception( "Invalid input" );
+                        Console.WriteLine("Incorrect data! Make sure that you have entered the departure date correctly.");
                     }
                 }
-                catch(Exception ex)
+                else
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Incorrect data! Make sure that the check-in date is correct.");
                 }
-                break;
-                
+                break;  
 
             case "cancel":
                 if (parts.Length != 2)
