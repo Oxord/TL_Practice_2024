@@ -1,0 +1,33 @@
+﻿          файл             |       строка       |                   описание поправки
+
+Accommodations.csproj                7               изменил <nullable>enable<nullable> на <nullable>disable<nullable>
+
+AccommodationsProcessor.cs          51               добавил try-catch и условие для проверки парсинга даты и валюты
+
+AccommodationsProcessor.cs          87               добавил try-catch для проверки парсинга bookingId
+
+AccommodationsProcessor.cs          102              добавил try-catch на случаи если история команд пуста и если команду нельзя отменить
+
+AccommodationsProcessor.cs          124              добавил try-catch для проверки парсинга id
+
+AccommodationsProcessor.cs          143              добавил try-catch на случай, если какой-то из параметров не удается распарсить
+
+BookingService.cs                   26               добавил try-catch, чтобы ловить выбрасываемые исключения
+
+BookingService.cs                   28               добавил условие для проверки того, что дата начала не равна дате окончания
+
+BookingService.cs                   94               вынес блок для проверки валидности даты в метод Book
+
+BookingService.cs                   100              убрал userId из параметров метода
+
+BookingService.cs                   128              поменял формулу для расчёта daysBeforeArrival, добавил обработку ситуации, когда  daysBeforeArrival = 0
+
+BookingService.cs                   131              изменил формулу для расчёта PenaltyAmount 
+
+BookingService.cs                   151              изменил формулу для расчёта totalCost 
+
+BookCommand.cs                      21               добавил обработку ситуации, когда не удплось создать бронь
+
+FindBookingByIdCommand.cs           11               добавил вывод названия категории
+
+https://docs.google.com/document/d/1Cov_0hMEaZSvn8X3KxFz6Ueg7D6JjbFP1JKoQ1itjUI/edit?usp=sharing
